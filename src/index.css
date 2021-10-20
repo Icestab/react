@@ -34,7 +34,8 @@ ul {
 }
 
 .square:focus {
-    outline: none;
+    outline: 3px dotted #e73;
+    outline-offset: -4px;
 }
 
 .kbd-navigation .square:focus {
@@ -45,7 +46,24 @@ ul {
     display: flex;
     flex-direction: row;
 }
-
+.top-number{
+    position: fixed;
+    top:5px;
+    list-style-type: none;
+}
+.top-number > li{
+    float: left;
+    margin-left: 19px;
+}
+.left-number{
+    position: fixed;
+    top:5px;
+    left: 9px;
+    list-style-type: none;
+}
+.left-number > li{
+    margin-top: 19px;
+}
 .game-info {
     margin-left: 20px;
 }
