@@ -94,12 +94,17 @@ class Game extends React.Component {
       ],
       setpNumber: 0,
       xIsNest: true,
+      coordinate: Array(9).fill(0),
     };
   }
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.setpNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    const coordinate = this.state.coordinate.slice(
+      0,
+      this.state.setpNumber + 1
+    );
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -112,6 +117,7 @@ class Game extends React.Component {
       ]),
       setpNumber: history.length,
       xIsNest: !this.state.xIsNest,
+      coordinate: coordinate.concat(i),
     });
   }
   jumpTo(step) {
@@ -124,9 +130,11 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.setpNumber];
     const winner = calculateWinner(current.squares);
-
+    const i = this.state.coordinate;
     const moves = history.map((step, move) => {
-      const desc = move ? 'Go to move #' + move : 'Go to game start';
+      const desc = move
+        ? 'Go to move #' + move + ',coordinate is' + calculateCoor(i[move])
+        : 'Go to game start';
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -188,4 +196,9 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+function calculateCoor(coordinate) {
+  const x = parseInt(coordinate / 3) + 1;
+  const y = (coordinate % 3) + 1;
+  return '(' + x + ',' + y + ')';
 }
