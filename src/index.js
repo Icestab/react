@@ -59,27 +59,15 @@ class Board extends React.Component {
     //   status = 'Next player: ' + (this.state.xIsNest ? 'X' : 'O');
     // }
     // const status = 'Next player: ' + (this.state.xIsNest ? 'X' : 'O');
-
-    return (
-      <div>
-        {/* <div className="status">{status}</div> */}
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
+    let boardRow = [];
+    for (let i = 0; i < 3; i++) {
+      let S = [];
+      for (let j = 0; j < 3; j++) {
+        S.push(this.renderSquare(j + i * 3));
+      }
+      boardRow.push(<div className="board-row">{S}</div>);
+    }
+    return <div>{boardRow}</div>;
   }
 }
 
