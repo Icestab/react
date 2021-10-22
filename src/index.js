@@ -24,7 +24,13 @@ function Square(props) {
     </button>
   );
 }
-
+function SortButton(props) {
+  if (props.value) {
+    return <button onClick={props.onClick}>↑</button>;
+  } else {
+    return <button onClick={props.onClick}>↓</button>;
+  }
+}
 class Board extends React.Component {
   // constructor(props) {
   //   super(props);
@@ -88,6 +94,8 @@ class Game extends React.Component {
       setpNumber: 0,
       xIsNest: true,
       coordinate: Array(9).fill(0),
+      sortStatus: true,
+      m: [],
     };
   }
   handleClick(i) {
@@ -113,11 +121,31 @@ class Game extends React.Component {
       coordinate: coordinate.concat(i),
     });
   }
+
   jumpTo(step) {
     this.setState({
       setpNumber: step,
       xIsNest: step % 2 === 0,
     });
+  }
+  sortFuc(r) {
+    this.setState({
+      sortStatus: !this.state.sortStatus,
+      m: r.reverse(),
+    });
+    if (this.state.sortStatus) {
+      this.setState({
+        m: r,
+      });
+    } else {
+      this.setState({
+        m: r.reverse(),
+      });
+    }
+  }
+  sortUp(moves) {
+    console.log(moves);
+    return moves.reverse();
   }
   render() {
     const history = this.state.history;
@@ -134,6 +162,8 @@ class Game extends React.Component {
         </li>
       );
     });
+    let removes = moves;
+    removes.reverse();
     let status;
     if (winner) {
       status = 'Winner:' + winner;
@@ -159,8 +189,14 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+          <div>
+            {status};Sort:
+            <SortButton
+              value={this.state.sortStatus}
+              onClick={() => this.sortFuc(removes)}
+            />
+          </div>
+          <ol>{this.state.m.length === 0 ? moves : this.state.m}</ol>
         </div>
       </div>
     );

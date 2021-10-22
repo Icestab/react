@@ -73,6 +73,6 @@ ul {
     margin-left: 20px;
 }
 
-.game-info button:focus {
+.game-info ol button:focus {
     font-weight: bold;
 }
