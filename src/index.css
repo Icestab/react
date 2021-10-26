@@ -34,7 +34,12 @@ ul {
 }
 
 .square:focus {
-    outline: 3px dotted #e73;
+    /* outline: 3px dotted #e73;
+    outline-offset: -4px; */
+}
+
+.active {
+    outline: 3px solid red;
     outline-offset: -4px;
 }
 

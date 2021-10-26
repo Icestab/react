@@ -95,7 +95,7 @@ class Game extends React.Component {
           squares: Array(9).fill(null),
         },
       ],
-      setpNumber: 0,
+      stepNumber: 0,
       xIsNest: true,
       coordinate: Array(9).fill(0),
       sortStatus: true,
@@ -104,26 +104,29 @@ class Game extends React.Component {
     };
   }
   handleClick(i) {
-    const history = this.state.history.slice(0, this.state.setpNumber + 1);
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     const coordinate = this.state.coordinate.slice(
       0,
-      this.state.setpNumber + 1
+      this.state.stepNumber + 1
     );
     const line = calculateWinner(squares);
     if (line || squares[i]) {
-      this.markWin(line);
       return;
     }
     squares[i] = this.state.xIsNest ? 'X' : 'O';
+    const win = calculateWinner(squares);
+    if (win) {
+      this.markWin(win);
+    }
     this.setState({
       history: history.concat([
         {
           squares: squares,
         },
       ]),
-      setpNumber: history.length,
+      stepNumber: history.length,
       xIsNest: !this.state.xIsNest,
       coordinate: coordinate.concat(i),
     });
@@ -131,8 +134,9 @@ class Game extends React.Component {
 
   jumpTo(step) {
     this.setState({
-      setpNumber: step,
+      stepNumber: step,
       xIsNest: step % 2 === 0,
+      winStatus: Array(9).fill(0),
     });
   }
   sortFuc() {
@@ -151,11 +155,13 @@ class Game extends React.Component {
     // }
   }
   markWin(line) {
-    const win = this.state.winStatus;
+    const win = Array(9).fill(0);
     // console.log(win);
     for (let i = 0; i < 9; i++) {
       if (i === line[0] || i === line[1] || i === line[2]) {
         win[i] = 1;
+      } else {
+        win[i] = 0;
       }
     }
     // console.log(win);
@@ -169,7 +175,7 @@ class Game extends React.Component {
   // }
   render() {
     const history = this.state.history;
-    const current = history[this.state.setpNumber];
+    const current = history[this.state.stepNumber];
     const winLine = calculateWinner(current.squares);
     // const winner = current.squares[winLine[0]];
     const i = this.state.coordinate;
