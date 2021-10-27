@@ -99,7 +99,6 @@ class Game extends React.Component {
       xIsNest: true,
       coordinate: Array(9).fill(0),
       sortStatus: true,
-      m: [],
       winStatus: Array(9).fill(0),
     };
   }
@@ -196,6 +195,8 @@ class Game extends React.Component {
     let status;
     if (winLine) {
       status = 'Winner:' + current.squares[winLine[0]];
+    } else if (this.state.stepNumber === 9) {
+      status = 'Draw:';
     } else {
       status = 'Next player:' + (this.state.xIsNest ? 'X' : 'O');
     }
